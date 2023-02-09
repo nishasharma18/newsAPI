@@ -2,17 +2,14 @@ public with sharing class newsController {
     @AuraEnabled
     public static Map<String, Object> retriveNews(string searchKey,string country,string category){
         News_API__c news_api = News_API__c.getOrgDefaults();
-        system.debug(news_api.Endpoint__c);
-        system.debug(news_api.Key__c);
+        
         String SEARCH_URL = news_api.Endpoint__c;
         String API_KEY = news_api.Key__c; //Put your API_KEY here 
         searchKey = searchKey == null ? '' : searchKey;
         country = country == 'all' ? 'us' : country;
-        system.debug('country: '+ country);
         category = category == 'all' ? '' : category;
 
         String url = SEARCH_URL+'/top-headlines?country='+country+'&category='+category+'&q='+searchKey+'&apiKey='+API_KEY;
-        system.debug('url: '+ url);
 
         HttpRequest httpRequest = new HttpRequest();
         httpRequest.setEndpoint(url);
