@@ -53,8 +53,6 @@ export default class NewsLauncher extends LightningElement {
 
     fetchNews(){
         retriveNews({searchKey:this.searchInput,country:this.country,category:this.category}).then(response=>{
-            //console.log('response: '+JSON.stringify(response));
-           // this.formatNewsData(response.articles)
             var res = response.articles;
             this.totalResults = response.totalResults;
             if(this.totalResults == 0){
@@ -88,45 +86,22 @@ export default class NewsLauncher extends LightningElement {
     // If you wanted to do something when user is entering the string
     handleSearch(event){
         this.searchInput = event.target.value;
-        console.log('This is searchInput::'+ this.searchInput);
     }
 
     handleChange(event) {
-        this.value = event.detail.value;
         this.type = event.detail.value;
     }
 
     handleCountryChange(event) {
-        this.value = event.detail.value;
         this.country = event.detail.value;
     }
 
     handleCategoryChange(event) {
-        this.value = event.detail.value;
         this.category = event.detail.value;
     }
 
     //To map the videoResults to iframe and related list 
     handleSubmit(){
-        retriveNews({searchKey:this.searchInput,country:this.country,category:this.category})
-        .then ((response)=>{
-            //console.log(response);
-            // this.formatNewsData(response.articles)
-             var res = response.articles;
-             this.totalResults = response.totalResults;
-             if(this.totalResults == 0){
-                this.data = false;
-            }
-             this.result = res.map((item, index)=>{
-                 let id = `new_${index+1}`;
-                 let date = new Date(item.publishedAt).toDateString()
-                 let name = item.source.name;
-                 return { ...item, id: id, name: name, date: date}
-             })
-        })
-        .catch((error)=>{
-            console.error(error);
-        })
-
+        this.fetchNews();
    }
 }
